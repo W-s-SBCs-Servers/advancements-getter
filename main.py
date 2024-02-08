@@ -20,6 +20,9 @@ def fetch_playername(uuid: str) -> str:
 
 def format_data(files: list) -> None:
     for file in files:
+        if not file.endswith(".json"):
+            continue
+
         count = count_advancements(file)
         playername = fetch_playername(os.path.basename(file).rsplit('.', 1)[0])["player"]["username"]
         print(f"{playername}: {count}")
