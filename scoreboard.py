@@ -10,7 +10,7 @@ def update_scoreboard(files: list, screen: str, score: str) -> None:
 
         with open(file, 'r') as f:
             for line in f.readlines():
-                player, value, _ = line.split(' ')
+                player, value = line.split(' ')
                 command_to_run = f"scoreboard players set {player} {score} {value}"
                 subprocess.run(["screen", "-S", screen, "-X", "stuff", f"{command_to_run}\n"])
 
