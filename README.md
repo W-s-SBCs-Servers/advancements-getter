@@ -39,6 +39,10 @@ python3 main.py "path/to/advancements/*.json" > output.txt
 python3 scoreboard.py "input_files.txt" server_screen_name minecraft_score_name
 ```
 
+## Player Data Source
+
+- This project utilizes the [`playerdb.co`](https://playerdb.co/) API to retrieve player information. Ensure you have proper access to this API and follow their usage guidelines.
+
 ## Contributions
 
 Contributions are welcome. Please provide clear and concise explanations of your contributions in your Pull Requests.
