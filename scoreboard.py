@@ -17,8 +17,7 @@ def update_scoreboard(files: list, screen: str, score: str) -> None:
 
 if __name__ == "__main__":
     if os.name != 'posix':
-        print('This script was designed for Linux.')
-        exit(1)
+        raise RuntimeError('This script was designed for Linux.')
 
     if len(sys.argv) != 4:
         print("Usage: python3 main.py <pattern> <server_screen_name> <minecraft_score_name>")
