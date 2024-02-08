@@ -7,12 +7,12 @@ import sys
 API_URL = "https://playerdb.co"
 
 def count_advancements(filename: str) -> int:
-    try:
-        with open(filename, 'r') as file:
-            data = json.load(file)
-            return len(data.keys())
-    except FileNotFoundError:
-        print(f"File '{filename}' not found.")
+    if not os.path.exists(filename):
+        raise FileNotFoundError(f"File '{filename}' not found.")
+
+    with open(filename, 'r') as file:
+        data = json.load(file)
+        return len(data.keys())
 
 def fetch_playername(uuid: str) -> str:
     response = requests.get(f"{API_URL}/api/player/minecraft/{uuid}")
@@ -25,7 +25,7 @@ def format_data(files: list) -> None:
 
         count = count_advancements(file)
         playername = fetch_playername(os.path.basename(file).rsplit('.', 1)[0])["player"]["username"]
-        print(f"{playername}: {count}")
+        print(f"{playername} {count}")
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -39,5 +39,4 @@ if __name__ == "__main__":
         print("No files found matching the pattern.")
         exit(1)
     
-
     format_data(files)
