@@ -5,6 +5,7 @@ import requests
 import sys
 
 API_URL = "https://playerdb.co"
+USER_AGENT = "W-s-SBCs-Servers/advancements-getter (GitHub: https://github.com/W-s-SBCs-Servers/advancements-getter)"
 
 def count_advancements(filename: str) -> int:
     if not os.path.exists(filename):
@@ -14,8 +15,9 @@ def count_advancements(filename: str) -> int:
         data = json.load(file)
         return len(data.keys())
 
-def fetch_playername(uuid: str) -> str:
-    response = requests.get(f"{API_URL}/api/player/minecraft/{uuid}")
+def fetch_playername(uuid: str) -> dict:
+    headers = {"User-Agent": USER_AGENT}
+    response = requests.get(f"{API_URL}/api/player/minecraft/{uuid}", headers=headers)
     return response.json()["data"] if response.status_code == 200 else None
 
 def format_data(files: list) -> None:
@@ -24,8 +26,11 @@ def format_data(files: list) -> None:
             continue
 
         count = count_advancements(file)
-        playername = fetch_playername(os.path.basename(file).rsplit('.', 1)[0])["player"]["username"]
-        print(f"{playername} {count}")
+        player_data = fetch_playername(os.path.basename(file).rsplit('.', 1)[0])
+
+        if player_data:
+            playername = player_data["player"]["username"]
+            print(f"{playername} {count}")
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -40,3 +45,4 @@ if __name__ == "__main__":
         exit(1)
     
     format_data(files)
+    
