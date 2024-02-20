@@ -13,7 +13,7 @@ def count_advancements(filename: str) -> int:
 
     with open(filename, 'r') as file:
         data = json.load(file)
-        return len(data.keys())
+        return sum(1 for advancement in data.values() if isinstance(advancement, dict) and advancement.get('done'))
 
 def fetch_playername(uuid: str) -> dict:
     headers = {"User-Agent": USER_AGENT}
